@@ -10,6 +10,7 @@ const io = require("socket.io")(server, {
 const PORT = process.env.PORT;
 
 io.on("connection", (socket) => {
+  const token = socket.handshake.auth.token;
   console.log(`User connected: ${socket.id}`);
 });
 io.on("disconnect", (socket) => {

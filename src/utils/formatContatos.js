@@ -3,6 +3,7 @@ function formatContatos(contatos, userId) {
     // Verificar se o usuário do contato é o mesmo que o pesquisado
     const isUser = contato.User.id === userId;
     return {
+      conversation_id: contato.id,
       username: isUser ? contato.ContactUser.username : contato.User.username, // Se o usuário do contato é o pesquisado, mantenha o nome do contato, senão use o nome do usuário do contato
       id: isUser ? contato.ContactUser.id : contato.User.id, // Se o usuário do contato é o pesquisado, mantenha o ID do contato, senão use o ID do usuário do contato
     };
