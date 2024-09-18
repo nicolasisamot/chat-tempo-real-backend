@@ -1,5 +1,6 @@
 const express = require("express");
 const UserController = require("../controllers/UserController.js");
+const autenticarUser = require("../middlewares/autenticarUser.js");
 
 const userRotas = express.Router();
 
@@ -7,6 +8,12 @@ const userController = new UserController();
 
 userRotas.get("/users", (req, res, next) =>
   userController.pegarTodosRegistros(req, res, next)
+);
+
+userRotas.get(
+  "/users/q",
+  (req, res, next) => autenticarUser(req, res, next),
+  (req, res, next) => userController.pegarRegistrosPorUsername(req, res, next)
 );
 userRotas.post("/users/criar", (req, res, next) =>
   userController.criarRegistro(req, res, next)
