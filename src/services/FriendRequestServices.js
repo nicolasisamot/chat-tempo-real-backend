@@ -8,14 +8,34 @@ class FriendRequestServices extends Services {
   }
 
   async criarSolicitacao(obj, transacao = null) {
-    return await db[this.model].create(
+    const solicitacao = await db[this.model].create(
       {
         sender_id: obj.sender_id,
         recipient_id: obj.recipient_id,
         status: "pending",
       },
-      { transaction: transacao }
+
+      {
+        transaction: transacao,
+      }
     );
+    return db[this.model].findOne({
+      where: {
+        id: solicitacao.id,
+      },
+      include: [
+        {
+          model: db.User,
+          as: "SenderUser",
+          attributes: ["username", "id"],
+        },
+        // {
+        //   model: db.User,
+        //   as: "RecipientUser",
+        //   attributes: ["username", "id"],
+        // },
+      ],
+    });
   }
 }
 

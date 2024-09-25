@@ -50,17 +50,19 @@ io.on("connection", (socket) => {
       const novaSolicitacao = await friendRequestServices.criarSolicitacao(
         data
       );
+      console.log(novaSolicitacao.dataValues.SenderUser.dataValues);
       const sender = userSockets.get(decoded.user.id);
       const recipient = userSockets.get(data.recipient_id);
-      console.log(userSockets);
+
       // io.to(sender).emit("sendFriendRequest", {
       //   message: "Friend request sent",
       // });
       io.to(recipient).emit("receiveFriendRequest", {
         request_id: novaSolicitacao.id,
-        sender_id: decoded.user.id,
+        sender_id: decoded.user.id, // substituir
         status: "pending",
         recipient_id: data.recipient_id,
+        sender: novaSolicitacao.dataValues.SenderUser.dataValues,
       });
     } catch (error) {}
   });
